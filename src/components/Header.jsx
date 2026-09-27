@@ -4,7 +4,6 @@ import Logo from './Logo.jsx'
 
 const NAV = [
   { to: '/', label: 'Anasayfa' },
-  { to: '/hakkimizda', label: 'Hakkımızda' },
   { to: '/iletisim', label: 'İletişim' },
 ]
 
