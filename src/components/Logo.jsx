@@ -5,10 +5,11 @@
 //
 // Kare çerçeve tek renkli/geometrik bir şekil olduğu için (font sorunu yok)
 // vektör (SVG) olarak çiziliyor — böylece her boyutta kusursuz keskin kalır.
-// Kare rengi ve içindeki "C" görseli her zaman marka kırmızısı (#A30000, kartvizitteki
-// gerçek renk). Yazı (wordmark) ise bağlama göre kırmızı ya da beyaz görsel kullanır.
+// Kare rengi her zaman marka kırmızısı (#A80000). Yazı (wordmark) ve içindeki
+// "C" görseli ise kartvizitten çıkarılıp bu renge boyanmış görsellerdir
+// (bağlama göre kırmızı ya da beyaz varyant kullanılır).
 
-const BRAND_RED = '#A30000'
+const BRAND_RED = '#A80000'
 
 function Logo({ size = 40, showText = true, textVariant = 'red' }) {
   const wordmarkSrc = textVariant === 'white' ? '/images/logo-wordmark-white.png' : '/images/logo-wordmark-red.png'

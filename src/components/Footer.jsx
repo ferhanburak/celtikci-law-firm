@@ -13,7 +13,6 @@ function Footer() {
 
         <nav style={{ display: 'flex', gap: 24, fontSize: 13.5, fontWeight: 500 }}>
           <Link to="/">Anasayfa</Link>
-          <Link to="/hakkimizda">Hakkımızda</Link>
           <Link to="/iletisim">İletişim</Link>
         </nav>
 
