@@ -1,20 +1,35 @@
 import { useState } from 'react'
 
 function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '', website: '' })
+  const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Not: şimdilik mail istemcisi üzerinden gönderiliyor.
-    // İleride buraya gerçek bir e-posta gönderim entegrasyonu (ör. bir form servisi
-    // veya kendi backend'imiz) eklenecek.
-    const subject = encodeURIComponent(`Web sitesi iletişim formu — ${form.name || 'İsimsiz'}`)
-    const body = encodeURIComponent(
-      `Ad Soyad: ${form.name}\nE-posta: ${form.email}\nTelefon: ${form.phone}\n\nMesaj:\n${form.message}`
-    )
-    window.location.href = `mailto:anil@celtikci.av.tr?subject=${subject}&body=${body}`
+    setStatus('sending')
+    setErrorMsg('')
+
+    try {
+      const body = new FormData()
+      Object.entries(form).forEach(([key, value]) => body.append(key, value))
+
+      const res = await fetch('/contact.php', { method: 'POST', body })
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus('success')
+        setForm({ name: '', email: '', phone: '', message: '', website: '' })
+      } else {
+        setStatus('error')
+        setErrorMsg(data.error || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.')
+      }
+    } catch {
+      setStatus('error')
+      setErrorMsg('Bağlantı hatası. Lütfen tekrar deneyin veya doğrudan anil@celtikci.av.tr adresine yazın.')
+    }
   }
 
   return (
@@ -66,6 +81,18 @@ function Contact() {
             boxShadow: '0 20px 50px -20px rgba(21,24,25,0.10)',
           }}
         >
+          {/* Bot tuzağı: gerçek ziyaretçiler görmez/doldurmaz, botlar genelde doldurur */}
+          <input
+            type="text"
+            name="website"
+            value={form.website}
+            onChange={handleChange}
+            tabIndex={-1}
+            autoComplete="off"
+            style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+            aria-hidden="true"
+          />
+
           <div className="contact-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
             <div>
               <label className="field-label" htmlFor="name">Ad Soyad</label>
@@ -126,10 +153,22 @@ function Contact() {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ marginTop: 16, width: '100%', justifyContent: 'center', borderRadius: 10 }}
+            disabled={status === 'sending'}
+            style={{ marginTop: 16, width: '100%', justifyContent: 'center', borderRadius: 10, opacity: status === 'sending' ? 0.7 : 1 }}
           >
-            Gönder
+            {status === 'sending' ? 'Gönderiliyor...' : 'Gönder'}
           </button>
+
+          {status === 'success' && (
+            <p style={{ marginTop: 14, fontSize: 14, color: '#2E7D32', fontWeight: 600 }}>
+              Mesajınız gönderildi. En kısa sürede size dönüş yapacağız.
+            </p>
+          )}
+          {status === 'error' && (
+            <p style={{ marginTop: 14, fontSize: 14, color: 'var(--color-primary)', fontWeight: 600 }}>
+              {errorMsg}
+            </p>
+          )}
         </form>
       </div>
 
