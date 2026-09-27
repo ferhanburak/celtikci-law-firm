@@ -12,7 +12,7 @@ export const translations = {
       rights: 'Celtikci Law Firm',
     },
     home: {
-      eyebrow: 'Av. Anıl Çeltikci · Founding Partner',
+      eyebrow: 'Av. Anıl Çeltikci · Kurucu Ortak',
       title: 'Av. Anıl Çeltikci ile tanışın',
       paragraph1:
         "Celtikci Law Firm'in kurucu ortağı Av. Anıl Çeltikci, kariyeri boyunca bireysel " +
