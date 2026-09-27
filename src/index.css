@@ -1,8 +1,8 @@
 :root {
   /* Celtikci Law Firm — kartvizit paletinden alınmıştır */
-  --color-primary: #A30000;       /* logo / vurgu kırmızısı */
-  --color-primary-dark: #7A0000;  /* hover / koyu ton */
-  --color-primary-light: #F3E4E4; /* açık kırmızı zemin tonu */
+  --color-primary: #A80000;       /* logo / vurgu kırmızısı */
+  --color-primary-dark: #7E0000;  /* hover / koyu ton */
+  --color-primary-light: #F4DEDE; /* açık kırmızı zemin tonu */
   --color-ink: #151819;           /* ana metin - neredeyse siyah */
   --color-ink-soft: #3A3D3E;
   --color-gray: #767676;          /* ikincil metin */
@@ -204,7 +204,7 @@ button {
 
 .field-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(163, 0, 0, 0.08);
+  box-shadow: 0 0 0 3px rgba(168, 0, 0, 0.08);
 }
 
 .field-input::placeholder {
