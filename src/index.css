@@ -1,0 +1,217 @@
+:root {
+  /* Celtikci Law Firm — kartvizit paletinden alınmıştır */
+  --color-primary: #A30000;       /* logo / vurgu kırmızısı */
+  --color-primary-dark: #7A0000;  /* hover / koyu ton */
+  --color-primary-light: #F3E4E4; /* açık kırmızı zemin tonu */
+  --color-ink: #151819;           /* ana metin - neredeyse siyah */
+  --color-ink-soft: #3A3D3E;
+  --color-gray: #767676;          /* ikincil metin */
+  --color-gray-light: #A7A9AA;
+  --color-border: #E4E1DD;
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #FAF8F6;
+
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --container: 1280px;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Sayfa tek bir bütün: üst menü + içerik + alt bilgi paneli, kaydırma
+   olmadan tamamen ekrana oturur. Hiçbir bölüm kendi içinde ayrı kaymaz. */
+.app-shell {
+  height: 100vh;
+  height: 100dvh; /* mobil tarayıcı adres çubuğu değişse de tam ekrana oturur */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main > * {
+  flex-shrink: 0;
+}
+
+/* Sayfa içeriği kalan boşluğu doldurur ve dikeyde ortalanır (alt panelden önce boşluk kalmaz) */
+.app-main > .hero-fill,
+.app-main > .page-fill {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Güvenlik önlemi: içerik dar/kısa ekranlarda yine de sığmazsa (ör. küçük telefon,
+   yakınlaştırılmış tarayıcı), buton veya alan erişilemez kalmasın diye sadece o
+   durumda kaydırma devreye girer. Normal ekranlarda hiçbir görsel farkı yoktur. */
+@media (max-width: 700px), (max-height: 620px) {
+  .app-shell { height: auto; min-height: 100vh; min-height: 100dvh; overflow: visible; }
+  .app-main { overflow-y: auto; flex: 1 1 auto; }
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-ink);
+  letter-spacing: 0.3px;
+}
+
+p { margin: 0; line-height: 1.7; }
+
+a { color: inherit; text-decoration: none; }
+
+img, svg { display: block; max-width: 100%; }
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.section {
+  padding: clamp(28px, 5vw, 56px) 0;
+}
+
+.section-alt {
+  background: var(--color-bg-alt);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 18px;
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: 56px;
+}
+
+.section-head h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.25;
+}
+
+.section-head p {
+  margin-top: 18px;
+  color: var(--color-gray);
+  font-size: 17px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-outline {
+  border: 1.5px solid var(--color-ink);
+  color: var(--color-ink);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outline-light {
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+}
+
+.btn-outline-light:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.field-optional {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-gray-light);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.field-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  background: #fff;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(163, 0, 0, 0.08);
+}
+
+.field-input::placeholder {
+  color: var(--color-gray-light);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
