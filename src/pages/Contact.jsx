@@ -1,16 +1,16 @@
 import { useState } from 'react'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 function Contact() {
+  const { t } = useLanguage()
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '', website: '' })
   const [status, setStatus] = useState('idle') // idle | sending | success | error
-  const [errorMsg, setErrorMsg] = useState('')
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
-    setErrorMsg('')
 
     try {
       const body = new FormData()
@@ -24,11 +24,9 @@ function Contact() {
         setForm({ name: '', email: '', phone: '', message: '', website: '' })
       } else {
         setStatus('error')
-        setErrorMsg(data.error || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.')
       }
     } catch {
       setStatus('error')
-      setErrorMsg('Bağlantı hatası. Lütfen tekrar deneyin veya doğrudan anil@celtikci.av.tr adresine yazın.')
     }
   }
 
@@ -42,19 +40,18 @@ function Contact() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <span style={{ width: 8, height: 8, background: 'var(--color-primary)', display: 'inline-block' }} />
-            <span className="eyebrow" style={{ margin: 0 }}>İletişim</span>
+            <span className="eyebrow" style={{ margin: 0 }}>{t.contact.eyebrow}</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', lineHeight: 1.15 }}>Görüşme Talep Edin</h1>
+          <h1 style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', lineHeight: 1.15 }}>{t.contact.title}</h1>
           <p style={{ color: 'var(--color-gray)', fontSize: 16, marginTop: 14, lineHeight: 1.6 }}>
-            Hukuki sorunuzu paylaşın, size en kısa sürede dönüş yapalım. İlk ön görüşme
-            durumunuzu birlikte değerlendirmek içindir.
+            {t.contact.subtitle}
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28 }}>
             {[
-              ['E-posta', 'anil@celtikci.av.tr', 'mailto:anil@celtikci.av.tr'],
-              ['Telefon', '+90 (542) 287 2270', 'tel:+905422872270'],
-              ['Web', 'www.celtikci.av.tr', 'https://www.celtikci.av.tr'],
+              [t.contact.infoLabels.email, 'anil@celtikci.av.tr', 'mailto:anil@celtikci.av.tr'],
+              [t.contact.infoLabels.phone, '+90 (542) 287 2270', 'tel:+905422872270'],
+              [t.contact.infoLabels.web, 'www.celtikci.av.tr', 'https://www.celtikci.av.tr'],
             ].map(([label, value, href]) => (
               <a key={label} href={href} style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
                 <span style={{ width: 38, height: 38, borderRadius: 10, border: '1.5px solid var(--color-primary)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary)', fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-serif)' }}>
@@ -95,12 +92,12 @@ function Contact() {
 
           <div className="contact-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
             <div>
-              <label className="field-label" htmlFor="name">Ad Soyad</label>
+              <label className="field-label" htmlFor="name">{t.contact.form.name}</label>
               <input
                 id="name"
                 className="field-input"
                 name="name"
-                placeholder="Adınız Soyadınız"
+                placeholder={t.contact.form.namePlaceholder}
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -108,13 +105,13 @@ function Contact() {
             </div>
             <div>
               <label className="field-label" htmlFor="phone">
-                Telefon <span className="field-optional">(opsiyonel)</span>
+                {t.contact.form.phone} <span className="field-optional">{t.contact.form.optional}</span>
               </label>
               <input
                 id="phone"
                 className="field-input"
                 name="phone"
-                placeholder="+90 5xx xxx xx xx"
+                placeholder={t.contact.form.phonePlaceholder}
                 value={form.phone}
                 onChange={handleChange}
               />
@@ -122,13 +119,13 @@ function Contact() {
           </div>
 
           <div style={{ marginTop: 14 }}>
-            <label className="field-label" htmlFor="email">E-posta</label>
+            <label className="field-label" htmlFor="email">{t.contact.form.email}</label>
             <input
               id="email"
               className="field-input"
               type="email"
               name="email"
-              placeholder="ornek@eposta.com"
+              placeholder={t.contact.form.emailPlaceholder}
               value={form.email}
               onChange={handleChange}
               required
@@ -136,14 +133,14 @@ function Contact() {
           </div>
 
           <div style={{ marginTop: 14 }}>
-            <label className="field-label" htmlFor="message">Mesajınız</label>
+            <label className="field-label" htmlFor="message">{t.contact.form.message}</label>
             <textarea
               id="message"
               className="field-input"
               style={{ resize: 'vertical' }}
               rows={3}
               name="message"
-              placeholder="Hukuki talebinizi kısaca özetleyin..."
+              placeholder={t.contact.form.messagePlaceholder}
               value={form.message}
               onChange={handleChange}
               required
@@ -156,17 +153,17 @@ function Contact() {
             disabled={status === 'sending'}
             style={{ marginTop: 16, width: '100%', justifyContent: 'center', borderRadius: 10, opacity: status === 'sending' ? 0.7 : 1 }}
           >
-            {status === 'sending' ? 'Gönderiliyor...' : 'Gönder'}
+            {status === 'sending' ? t.contact.form.submitting : t.contact.form.submit}
           </button>
 
           {status === 'success' && (
             <p style={{ marginTop: 14, fontSize: 14, color: '#2E7D32', fontWeight: 600 }}>
-              Mesajınız gönderildi. En kısa sürede size dönüş yapacağız.
+              {t.contact.form.success}
             </p>
           )}
           {status === 'error' && (
             <p style={{ marginTop: 14, fontSize: 14, color: 'var(--color-primary)', fontWeight: 600 }}>
-              {errorMsg}
+              {t.contact.form.errorGeneric}
             </p>
           )}
         </form>
