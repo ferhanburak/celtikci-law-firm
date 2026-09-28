@@ -85,7 +85,7 @@ export const translations = {
         'Fast response guarantee',
         'Confidentiality and trust-based relationship',
       ],
-      cta: 'Free Initial Consultation',
+      cta: 'Initial Consultation',
     },
     contact: {
       eyebrow: 'Contact',
