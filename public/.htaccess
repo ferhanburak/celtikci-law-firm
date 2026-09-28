@@ -1,0 +1,31 @@
+# Celtikci Law Firm — Apache (cPanel) yapılandırması
+#
+# Bu proje react-router-dom (BrowserRouter) kullanan bir tek sayfa
+# uygulamasıdır (SPA). Bu yüzden /iletisim gibi bir adrese doğrudan
+# girildiğinde ya da sayfa yenilendiğinde, sunucunun gerçek bir dosya
+# aramak yerine her zaman index.html'i döndürmesi gerekir; yönlendirmeyi
+# React (tarayıcıda) yapar. Aşağıdaki kural bunu sağlar.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Gerçekten var olan bir dosya veya klasörse (js, css, resim, contact.php vb.)
+  # dokunma, doğrudan onu sun.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Geri kalan her istek (ör. /iletisim) index.html'e yönlendirilir.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Statik varlıklar için tarayıcı önbellekleme (isteğe bağlı, performans içindir)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>

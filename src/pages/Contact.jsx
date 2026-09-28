@@ -13,10 +13,11 @@ function Contact() {
     setStatus('sending')
 
     try {
-      const body = new FormData()
-      Object.entries(form).forEach(([key, value]) => body.append(key, value))
-
-      const res = await fetch('/contact.php', { method: 'POST', body })
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
       const data = await res.json()
 
       if (data.success) {
