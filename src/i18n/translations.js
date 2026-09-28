@@ -29,7 +29,7 @@ export const translations = {
         'Hızlı geri dönüş garantisi',
         'Gizlilik ve güven esaslı ilişki',
       ],
-      cta: 'Ücretsiz Ön Görüşme',
+      cta: 'Ön Görüşme',
     },
     contact: {
       eyebrow: 'İletişim',
