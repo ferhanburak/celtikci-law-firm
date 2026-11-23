@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     await transporter.sendMail({
       from: `"Celtikci Law Firm Web Sitesi" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_TO || 'anil@celtikci.av.tr',
-      replyTo: `${name} <${email}>`,
+      replyTo: { name, address: email },
       subject: `Web sitesi iletişim formu — ${name}`,
       text:
         `Web sitesi iletişim formundan yeni bir mesaj alındı:\n\n` +
