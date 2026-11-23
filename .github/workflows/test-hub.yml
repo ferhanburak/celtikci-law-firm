@@ -1,0 +1,19 @@
+name: test-hub
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    uses: ferhanburak/test-hub/.github/workflows/web-ci.yml@main
+    with:
+      project: celtikci
+      suite: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'full' || (github.event_name == 'push' && github.ref == 'refs/heads/main') && 'e2e' || 'fast' }}
